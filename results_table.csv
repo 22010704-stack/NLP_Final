@@ -1,6 +1,0 @@
-﻿Mô hình,Accuracy,Macro-F1,Weighted-F1,ROC-AUC,Train (s)
-KimCNN,1.0,1.0,1.0,1.0,5.8
-BiLSTM+Attention,1.0,1.0,1.0,1.0,5.6
-RCNN,1.0,1.0,1.0,1.0,8.1
-TransformerEncoder,1.0,1.0,1.0,1.0,12.7
-PhoBERT,1.0,1.0,1.0,1.0,315.2
