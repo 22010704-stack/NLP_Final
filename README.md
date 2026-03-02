@@ -1,81 +1,53 @@
-# Deep Learning Approaches for Vietnamese Student Feedback Classification
+# Phân tích phản hồi sinh viên (Student Feedback Analysis)
 
-This project benchmarks five deep learning architectures for automated sentiment classification of Vietnamese student course-evaluation feedback across four classes: Positive, Negative, Suggestion, and Neutral.
+Dự án NLP phân loại phản hồi sinh viên về môn học sử dụng Deep Learning.
 
-## 🎯 Project Objectives
+## 1. Yêu cầu hệ thống
+- Python 3.10+
+- PyTorch
+- Transformers (PhoBERT)
+- Underthesea (Vietnamese NLP)
+- Scikit-learn, Pandas, Matplotlib, Seaborn
 
-* Compare the in-domain performance of KimCNN, BiLSTM+Attention, RCNN, Transformer Encoder, and PhoBERT on a self-collected Vietnamese corpus.
-* Analyze the contribution of the Attention mechanism via ablation study.
-* Evaluate model robustness under character-level noise (typos and diacritic removal).
-* Establish a reproducible benchmark pipeline for Vietnamese NLP text classification.
-
-## 📊 Key Results
-
-* All five models achieved perfect in-domain classification (Accuracy = 1.000, Macro-F1 = 1.000).
-* Removing Attention from BiLSTM causes Macro-F1 to collapse from 1.000 → 0.103.
-* KimCNN is more robust under typos (Accuracy 0.950 at Typo-10%) compared to BiLSTM+Attention (0.862).
-* Both models fail completely under full diacritic removal (Accuracy ≈ 0.0).
-
-## 📁 Project Structure
-
-* `NLP_Final_.ipynb`: Main notebook — training, evaluation, ablation, and robustness analysis.
-* `student_feedback.csv`: Self-collected dataset of 2,050 Vietnamese student feedback samples.
-* `label_guideline.pdf`: Annotation guideline defining 4 labels + inter-annotator agreement (Cohen's κ = 0.73).
-* `outputs/`: Generated results including:
-  * `results_table.csv`: Full results table (models × metrics).
-  * `cm_phobert.png`, `cm_bilstm.png`, etc.: Confusion matrices for all models.
-  * `ablation.png`: Ablation study chart.
-  * `robustness.png`: Robustness analysis chart.
-  * `model_comparison.png`: Cross-model performance comparison.
-  * `history_*.png`: Training and validation curves per model.
-
-## 🛠️ Installation and Usage
-
-**1. Environment Setup**
-
+Cài đặt phụ thuộc:
 ```bash
 pip install -r requirements.txt
 ```
 
-Or install manually:
+## 2. Cấu trúc thư mục
+- `data/`: Chứa các tệp CSV dữ liệu (tự thu thập và public)
+- `src/`: Mã nguồn chính
+  - `models/`: Chứa 5 kiến trúc mô hình (CNN, RNN, RCNN, Transformer, PhoBERT)
+  - `preprocessing.py`: Làm sạch và tiền xử lý văn bản
+  - `vocabulary.py`: Xây dựng từ điển cho các mô hình non-BERT
+  - `dataset.py`: PyTorch Dataset handlers
+  - `trainer.py`: Vòng lặp huấn luyện, early stopping
+  - `metrics.py`: Tính toán các chỉ số đánh giá (Accuracy, F1, Matrix)
+  - `error_analysis.py`: Phân tích lỗi mô hình
+- `Student_Feedback_NLP.ipynb`: Notebook chính chạy toàn bộ thực nghiệm
+- `label_guideline.md`: Hướng dẫn gán nhãn dữ liệu
 
-```bash
-pip install torch transformers underthesea scikit-learn pandas numpy matplotlib seaborn
-```
+## 3. Cách chạy
+1. Tạo dữ liệu tự thu thập:
+   ```bash
+   python generate_dataset.py
+   ```
+2. Mở và chạy notebook `Student_Feedback_NLP.ipynb` để:
+   - Thống kê dữ liệu và tính Inter-Annotator Agreement (IAA)
+   - Tiền xử lý dữ liệu
+   - Huấn luyện và đánh giá 5 mô hình
+   - So sánh kết quả In-domain, Public và Cross-domain
+   - Phân tích lỗi và tính Robustness
 
-**Hardware:** NVIDIA T4 GPU (Google Colab free tier)  
-**Python version:** 3.10+
+## 4. Mô hình triển khai
+1. **KimCNN**: Convolutional Neural Network cho văn bản với nhiều kích thước kernel.
+2. **BiLSTM + Attention**: Recurrent Neural Network hai chiều kết hợp cơ chế chú ý.
+3. **RCNN**: Recurrent Convolutional Neural Network kết hợp ưu điểm của cả hai.
+4. **Custom Transformer**: Encoder với Multi-head Attention (tự xây dựng).
+5. **PhoBERT + Custom Head**: Pre-trained model cho tiếng Việt với Attentive Pooling head.
 
-**2. Run the Notebook**
-
-Upload `NLP_Final_.ipynb` and `student_feedback.csv` to Google Colab, then select **Runtime → Run all**.
-
-Or run locally:
-
-```bash
-jupyter notebook NLP_Final_.ipynb
-```
-
-**3. Random Seeds**
-
-All experiments use fixed seeds for full reproducibility:
-
-```python
-SEEDS = [42, 123, 777]
-```
-
-## 📊 Dataset
-
-* **Size:** 2,050 Vietnamese student course-evaluation texts.
-* **Labels:** Positive (530), Negative (520), Suggestion (500), Neutral (500).
-* **Split:** 70% train / 10% val / 20% test (stratified).
-* **Inter-annotator agreement:** Cohen's κ = 0.73 (Substantial Agreement).
-
-> ⚠️ All personally identifiable information has been removed from the dataset.
-
-## 👤 Author
-
-**Minh Nguyen Ngoc** · MSSV: 22010704  
-Phenikaa University, Ha Noi, Vietnam  
-Advisor: ThS. Vũ Hoàng Diệu  
-Submission date: February 28, 2026
+## 5. Kết quả mong đợi
+- Accuracy, Macro-F1, Weighted-F1 cho tất cả mô hình.
+- Confusion Matrix và Error Analysis (≥30 lỗi).
+- Đánh giá Robustness (với noise và không dấu).
+- So sánh thời gian huấn luyện và kích thước mô hình.
