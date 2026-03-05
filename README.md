@@ -16,15 +16,12 @@ pip install -r requirements.txt
 
 ## 2. Cấu trúc thư mục
 - `data/`: Chứa các tệp CSV dữ liệu (tự thu thập và public)
-- `src/`: Mã nguồn chính
-  - `models/`: Chứa 5 kiến trúc mô hình (CNN, RNN, RCNN, Transformer, PhoBERT)
-  - `preprocessing.py`: Làm sạch và tiền xử lý văn bản
-  - `vocabulary.py`: Xây dựng từ điển cho các mô hình non-BERT
-  - `dataset.py`: PyTorch Dataset handlers
-  - `trainer.py`: Vòng lặp huấn luyện, early stopping
-  - `metrics.py`: Tính toán các chỉ số đánh giá (Accuracy, F1, Matrix)
-  - `error_analysis.py`: Phân tích lỗi mô hình
-- `Student_Feedback_NLP.ipynb`: Notebook chính chạy toàn bộ thực nghiệm
+- `generate_dataset.py`: Tạo dữ liệu tự thu thập
+- `01_KimCNN.ipynb`: Notebook KimCNN (standalone)
+- `02_BiLSTM_Attention.ipynb`: Notebook BiLSTM+Attention (standalone)
+- `03_RCNN.ipynb`: Notebook RCNN (standalone)
+- `04_Transformer.ipynb`: Notebook Custom Transformer (standalone)
+- `05_PhoBERT.ipynb`: Notebook PhoBERT + Attentive Pooling (standalone)
 - `label_guideline.md`: Hướng dẫn gán nhãn dữ liệu
 
 ## 3. Cách chạy
@@ -32,13 +29,11 @@ pip install -r requirements.txt
    ```bash
    python generate_dataset.py
    ```
-2. Mở và chạy notebook `Student_Feedback_NLP.ipynb` để:
-   - Thống kê dữ liệu và tính Inter-Annotator Agreement (IAA)
-   - Tiền xử lý dữ liệu
-   - Huấn luyện và đánh giá 5 mô hình
-   - So sánh kết quả In-domain, Public và Cross-domain
-   - Phân tích lỗi và tính Robustness
-
+2. Mở và chạy lần lượt các notebook (`01_KimCNN.ipynb`, `02_BiLSTM_Attention.ipynb`, `03_RCNN.ipynb`, `04_Transformer.ipynb`, `05_PhoBERT.ipynb`) để:
+   - Tải và tiền xử lý dữ liệu
+   - Xây dựng từ điển / Tokenizer
+   - Huấn luyện và đánh giá mô hình
+   - Hiển thị kết quả (Classification Report, Confusion Matrix, Loss Curve)
 ## 4. Mô hình triển khai
 1. **KimCNN**: Convolutional Neural Network cho văn bản với nhiều kích thước kernel.
 2. **BiLSTM + Attention**: Recurrent Neural Network hai chiều kết hợp cơ chế chú ý.
